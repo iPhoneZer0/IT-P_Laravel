@@ -1,0 +1,218 @@
+https://book.dmm.com/streaming/?cid=FRNfXRNVFW1RAQxTCg9UVhIWW0MACVUJVk5EDl0VClcHDl9S&lin=0
+
+[使うアプリ]
+Windows PowerShell
+
+[Linux コマンド]
+find / -name "*.txt"	.txtファイルを全階層調べる
+
+[メモ]
+sudo su -
+----------------------------------------------------------------
+
+・Docker Desktop インストール
+https://www.docker.com/products/docker-desktop
+
+
+・起動後、WSL(Windows subsystem for linux??)が未インストールと表記されたらインスコ
+https://docs.microsoft.com/ja-jp/windows/wsl/install-manual#step-4---download-the-linux-kernel-update-package
+
+--------------------------------------------------------------
+・Windows PowerShell を管理者権限で起動し下記コマンド実行
+
+WSLオプションの有効化
+dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
+
+
+仮想マシンの有効化
+dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+
+LinuxサブシステムのデフォルトをWSL2 に設定
+wsl --set-default-version 2
+
+-------------------------------------------------------------------
+・windows storeで Ubuntu をインストール
+起動後、小文字の英語文字のみを含む単純なユーザー名・パスを任意で入力
+
+私のメモ:new UNIX username : zer0
+	 pass : 0000
+
+---------------------------------------------------------------------
+・PowerShellに戻り、インストールしたサブシステムの確認
+wsl --list --verbose
+
+-----------------------------------------------------------------------
+・Docker Desktop の設定をする
+設定の「General」の「Use the WSL 2 based engine」のチェックを確認
+続いて「Resources」→「WSL INTEGRATION」のUbuntu にチェック
+	「apply＆Restart」で適用
+
+---------------------------------------------------------------------
+・PowerShellにて動作確認
+
+ubuntuの起動
+ubuntu
+
+-----------------------------------------------------------------------
+
+Dockerコマンドのテスト(ver確認のコマンド)
+docker -v
+
+・Laravel Sail のダウンロード
+ホームディレクトリに移動後ファイル作成
+mkdir laravel_docker
+
+作成したファイルに移動
+cd laravel_docker
+
+curlコマンドで Laravel Sail ダウンロード
+curl -s https://laravel.build/sample | bash
+
+最後にパスワードの入力（恐らくUbuntuと同じ）
+ダウンロード完了
+
+-------------------------------------------------------------------
+・Laravel Sail の起動と終了
+まず、「ls」コマンドでダウンロードした「sample」ファイルの確認
+cd sample	でファイル移動をする
+
+
+-----Laravel Sail の起動----------------
+
+./vendor/bin/sail up		又は
+./vendor/bin/sail up -d		-d でバックグラウンド起動ができる
+
+-----Laravel Sail の終了----------------
+
+./vendor/bin/sail down
+
+-------------------------------------------------------------
+[以下のmysqlエラーが出た場合]
+ERROR: for sample_mysql_1 Cannot start service mysql: Ports are not available: listen tcp 0.0.0.0:3306: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted.
+
+
+ERROR: for mysql Cannot start service mysql: Ports are not available: listen tcp 0.0.0.0:3306: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted.
+ERROR: Encountered errors while bringing up the project.
+
+docker-compose.ymlにあるmysqlポート番号を3306→3307に変更
+---------------------------------------------------------------
+
+--------エイリアスの登録----------
+上記のlaravel sailの起動のコマンドの一部を省略することができるようになる
+
+・登録
+alias sail="./vendor/bin/sail"
+
+・今後の起動と終了
+-----Laravel Sail の起動----------------
+
+sail up -d
+
+-----Laravel Sail の終了----------------
+
+sail down
+
+-----------------------------------------
+その他のSailコマンド(Sail起動中)
+
+・コンテナへの接続
+sail shell		exitで接続解除
+
+・実行中のコンテ一覧を確認
+sail ps
+
+・MySQLへの接続
+sail mysql
+
+-----------------------------------------
+***Gitをインストール***
+***Visual boxをインストール***
+***Vagrantをインストール***
+
+git インスコ
+sudo apt update
+sudo apt install git
+
+vagrant インスコ
+curl -O https://releases.hashicorp.com/vagrant/2.2.19/vagrant_2.2.19_x86_64.deb
+sudo apt install ./vagrant_2.2.19_x86_64.deb
+
+参考サイト
+https://linuxize.com/post/how-to-install-git-on-ubuntu-18-04/
+https://www.suzu6.net/posts/221-how-to-install-vagrant-on-ubuntu/
+https://mebee.info/2020/04/27/post-8620/
+------------------------------------------
+https://qiita.com/Tett/items/40dbfc9f1bf720cb2aa4
+https://shigeo-t.hatenablog.com/entry/2020/10/11/050000#dotnet-runtime-31%E3%81%A8daemonize%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB
+--------------------------------------
+
+Homesteadのダウンロード
+vagrant box add laravel/homestead
+
+vagrant box list　でboxリスト表示
+
+
+Homesteadのboxを使用するためのファイルをダウンロード
+cd $USERPROFILE
+git clone https://github.com/laravel/homestead.git ~/Homestead
+
+Homesteadの初期化
+cd ~/Homestead
+./init.bat 	(bash init.sh)
+
+mkdir code
+
+--------------------------------
+毎度やれ
+export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS="1"
+export PATH="${PATH}:/mnt/c/Program Files/Oracle/VirtualBox"
+----------------------------
+ssh-keygen
+
+export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS="2"
+ sudo systemctl --force --force reboot	再起動
+sudo reboot -f
+
+
+ 
+wget https://packages.microsoft.com/config/ubuntu/21.10/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+sudo dpkg -i packages-microsoft-prod.deb（）（）
+
+
+sudo apt-get install linux-headers-5.10.16.3-virtual
+
+ sudo apt install linux-image-5.4.0-99-generic linux-headers-5.4.0-99-generic linux-modules-extra-5.4.0-99-generic
+sudo apt-get install linux-image-5.4.0-99-generic linux-image-5.4.0-99-lowlatency linux-image-5.4.0-99-generic
+
+sudo apt remove linux-headers-5.10.16.3-generic linux-image-5.10.16.3-generic linux-modules-5.10.16.3-generic linux-modules-extra-5.10.16.3-generic linux-headers-5.10.16.3
+
+
+------------------
+sudo apt-get install gedit
+sudo apt -y install gnome
+
+//sudo nano /boot/grub/grub.cfg
+1. シフト押しながら再起動
+2. GRUBメニューのAdvanced options for Ubuntu
+3. 目的のバージョンのカーネルを選択
+
+https://www.pc-koubou.jp/magazine/35542#section02-01
+https://qiita.com/NAZA/items/8aab00ad8ccf3c1cd17f
+https://codechacha.com/ja/ubuntu-update-kerenl/
+
+uname -a
+dpkg -l|grep linux-headers
+
+uname -rv
+dpkg --list | grep linux-image
+
+5.10.16.3-microsoft-standard-WSL2
+
+linux-headers-5.10.60.1-20211013-1-microsoft-custom-wsl2+
+linux-headers-5.10.93.2-20220208-1-microsoft-custom-wsl2+
+sudo apt-get install linux-image-5.4.0-99-generic
+
+-----------------------
+
+apt-get autoremove
+
