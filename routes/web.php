@@ -17,6 +17,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/hello', function () {
+    return view('hello');
+});
+
 Route::get('/home', function () {
     return view('home');
 });
@@ -42,3 +46,4 @@ Route::post('/login', [App\Http\Controllers\LoginController::class, 'authenticat
 Route::get('/logout', [App\Http\Controllers\LoginController::class, 'logout'])
 -> middleware('auth')
 -> name('logout');
+
