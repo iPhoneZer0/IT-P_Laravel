@@ -1,0 +1,47 @@
+http://localhost/laratest/public/
+
+
+DBname: lara
+DBport: 3308
+
+env.ファイルにメールアドレスとアプリパスワードを記述してください
+
+以下、ただのメモ
+
+Laravelインストール(ver9.0)　 laratestはファイル名
+composer create-project "laravel/laravel=9.0.*" --prefer-dist laratest
+
+Laravelのバージョン確認
+php artisan -V
+
+テーブルなどを作ってくれる
+php artisan migrate
+
+プロジェクト直下  「.env」 ファイルに
+ポート番号やDBname等の設定がある
+(config/database.phpにもある)
+
+
+shell
+cd htdocs/laratest	移動
+
+MySQLに接続
+mysql
+USE lara	USE DBネーム　ね
+
+-------------------------------------
+laravel/uiライブラリをインストール
+composer require laravel/ui
+
+ログイン、新規登録周りファイルのインストール
+php artisan ui vue --auth
+
+
+--------------------------------------
+参考資料等
+
+https://qiita.com/ryo0531/items/af96d8588f4e0fa6a826
+https://qiita.com/tarian/items/1f972acf2f43cc2e5327
+
+-------------------
+
