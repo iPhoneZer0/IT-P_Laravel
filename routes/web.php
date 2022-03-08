@@ -12,16 +12,9 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-/*
+
 Route::get('/', function () {
     return view('welcome');
-});
-
-*/
-
-//view('welcome')になっているところをauth.loginに変更します。
-Route::get('/', function () {
-    return view('auth.login');
 });
 
 Route::get('/home', function () {
@@ -29,6 +22,23 @@ Route::get('/home', function () {
 });
 
 
-Auth::routes();
+//登録
+Route::get('/register', [App\Http\Controllers\RegisterController::class, 'create'])
+-> middleware('guest')
+-> name('register');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::post('/register', [App\Http\Controllers\RegisterController::class, 'store'])
+-> middleware('guest');
+
+//ログイン
+Route::get('/login', [App\Http\Controllers\LoginController::class, 'index'])
+-> middleware('guest')
+-> name('login');
+
+Route::post('/login', [App\Http\Controllers\LoginController::class, 'authenticate'])
+-> middleware('guest');
+
+//ログアウト
+Route::get('/logout', [App\Http\Controllers\LoginController::class, 'logout'])
+-> middleware('auth')
+-> name('logout');
